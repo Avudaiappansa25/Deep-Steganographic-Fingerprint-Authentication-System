@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fingerprint Recognition</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        body {
+            background: url('/static/joe-woods-4Zaq5xY5M_c-unsplash.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .upload-section {
+            width: 50%;
+            padding: 10px;
+        }
+        .result-section {
+            width: 50%;
+            padding: 10px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn-predict {
+            display: block;
+            margin: 10px 0;
+        }
+        .result-section span {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <h1 class="text-center">Fingerprint Recognition</h1>
+    <p class="text-center description">
+        Upload a fingerprint image to analyze and verify identity.
+    </p>
+
+    <div class="container">
+        <!-- Only show the upload form if no result has been obtained yet -->
+        {% if not result %}
+        <div class="upload-section">
+            <form id="upload-file" method="post" action="/" enctype="multipart/form-data">
+                <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg">
+                <label for="imageUpload" class="upload-label">
+                    <i class="fas fa-upload"></i> 
+                <div>Choose a Fingerprint Image</div> <!-- New line -->
+                <button type="submit" class="btn-predict" id="btn-predict">Analyze the fingerprint</button>
+            </form>
+        </div>
+        {% endif %}
+        
+        <div class="result-section">
+            <!-- Show results if any, or prompt otherwise -->
+            {% if result %}
+            <div class="image-preview">
+                <img id="imagePreview" src="{{ url_for('static', filename='uploads/' + user_image) }}" alt="Fingerprint Preview">
+            </div>
+            <span>{{ result }}</span>
+            {% else %}
+            <span>Result will appear here after analysis.</span>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
